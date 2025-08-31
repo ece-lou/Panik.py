@@ -10,6 +10,11 @@ import pygame.mixer
 import string
 import os
 import shutil
+from pathlib import Path
+
+def asset_path(*parts):
+    base = Path(getattr(sys, "_MEIPASS", Path(__file__).parent))
+    return base.joinpath(*parts)
 
 def display_score():
     current_time = int(pygame.time.get_ticks() / 1000) - start_time
@@ -75,7 +80,7 @@ def increase_music_intensity():
 
 def show_logo_intro():
     
-    logo_image = pygame.image.load("Desktop/Panikfile/Graphix/rodentgiris.jpg").convert_alpha()
+    logo_image = pygame.image.load(str(asset_path("Graphix", "rodentgiris.jpg"))).convert_alpha()
     logo_image = pygame.transform.scale(logo_image, (800, 400))
     logo_image = pygame.transform.rotozoom(logo_image,1,1)
     
@@ -96,7 +101,7 @@ def show_logo_intro():
     screen.fill((0, 0, 0))
 
    
-    gothic_font = pygame.font.Font("Desktop/Panikfile/Fontx/Gothicpixels.ttf", 28)
+    gothic_font = pygame.font.Font(str(asset_path("Fontx", "Gothicpixels.ttf")), 28)
 
     line1 = gothic_font.render("Panik.py by Grim Rodent Studios", True, "#F2EBE3")
     line2 = gothic_font.render("Music by s4k4t4t", True, "#F2EBE3")
@@ -120,7 +125,7 @@ def show_logo_intro():
                     waiting = False
 
         screen.fill((139, 0, 0))  #deep red
-        press_font = pygame.font.Font("Desktop/Panikfile/Fontx/Gothicpixels.ttf", 32)
+        press_font = pygame.font.Font(str(asset_path("Fontx", "Gothicpixels.ttf")), 32)
         message = press_font.render("Press SPACE to Start", True, "#F2EBE3")
         screen.blit(message, message.get_rect(center=(400, 200)))
 
@@ -132,16 +137,17 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((800,400))
 pygame.display.set_caption("Panik.py")
 clock = pygame.time.Clock()
-test_font = pygame.font.Font("Desktop/Panikfile/Fontx/Gothicpixels.ttf", 30) 
+font_file = asset_path("Fontx", "Gothicpixels.ttf")
+test_font = pygame.font.Font(str(font_file), 30) 
 
-pygame.mixer.music.load("Desktop/Panikfile/Musix/muzik1x.mp3")
+pygame.mixer.music.load(str(asset_path("Musix", "muzik1x.mp3")))
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.5) 
 
 show_logo_intro()
 
-giant_enemy_music = "Desktop/Panikfile/Musix/kocamanx.mp3"
-giant_enemy_background = pygame.image.load("Desktop/Panikfile/Graphix/gigax.png").convert()
+giant_enemy_music = str(asset_path("Musix", "kocamanx.mp3"))
+giant_enemy_background = pygame.image.load(str(asset_path("Graphix", "gigax.png"))).convert()
 giant_enemy_phase = False
 
 game_active = False
@@ -160,33 +166,33 @@ final_screen_active = False
 death_counter = 0
 
 test_surface = pygame.Surface((100,200)) 
-sky_surface = pygame.image.load('Desktop/Panikfile/Graphix/yenix.png').convert()
-ground_surface = pygame.image.load("Desktop/Panikfile/Graphix/ground2x.png").convert()
+sky_surface = pygame.image.load(str(asset_path("Graphix", "yenix.png"))).convert()
+ground_surface = pygame.image.load(str(asset_path("Graphix", "ground2x.png"))).convert()
 
 #OBSTACLES
-bebek_surface = pygame.image.load("Desktop/Panikfile/Enemix/Bebek2x.png").convert_alpha()
+bebek_surface = pygame.image.load(str(asset_path("Enemix", "Bebek2x.png"))).convert_alpha()
 
-fly_surface = pygame.image.load("Desktop/Panikfile/Enemix/Flyx.png").convert_alpha()
+fly_surface = pygame.image.load(str(asset_path("Enemix", "Flyx.png"))).convert_alpha()
 fly_surface = pygame.transform.rotozoom(fly_surface,0,3/2)
 
 #FAKE POPUP
-fake_popup_surface = pygame.image.load("Desktop/Panikfile/Graphix/korkux.png").convert_alpha()
+fake_popup_surface = pygame.image.load(str(asset_path("Graphix", "korkux.png"))).convert_alpha()
 fake_popup_surface = pygame.transform.rotozoom(fake_popup_surface,0,1.1)
 fake_popup_rectangle = fake_popup_surface.get_rect(center = (400,200))
 
 obstacle_rect_list = []
 
-player_surface = pygame.image.load("Desktop/Panikfile/Playerx/kedi.png").convert_alpha()
+player_surface = pygame.image.load(str(asset_path("Playerx", "kedi.png"))).convert_alpha()
 player_rectangle = player_surface.get_rect(midbottom = (80,300)) 
 player_gravity = 0
 can_double_jump = True
 
 #INTRO SCREEN
-bebek_giris = pygame.image.load("Desktop/Panikfile/Enemix/Bebekx.png").convert_alpha()
+bebek_giris = pygame.image.load(str(asset_path("Enemix", "Bebekx.png"))).convert_alpha()
 bebek_giris = pygame.transform.rotozoom(bebek_giris,0,4/3) 
 bebek_giris_rectangle = bebek_giris.get_rect(center = (400,200))
 
-son = pygame.image.load("Desktop/Panikfile/Enemix/Sonx.png").convert_alpha()
+son = pygame.image.load(str(asset_path("Enemix", "Sonx.png"))).convert_alpha()
 son = pygame.transform.rotozoom(son,0,2)
 son_rectangle = son.get_rect(center = (400,200))
 
@@ -195,7 +201,7 @@ game_name_rect = game_name.get_rect(center = (400,80))
 game_name2 = test_font.render("Failure !", False , "#F2EBE3")
 game_name_rect2 = game_name2.get_rect(center = (400,80))
 
-giant_enemy_surface = pygame.image.load("Desktop/Panikfile/Enemix/Flyx.png").convert_alpha()
+giant_enemy_surface = pygame.image.load(str(asset_path("Enemix", "Flyx.png"))).convert_alpha()
 giant_enemy_surface = pygame.transform.scale(giant_enemy_surface,(400, 200))  
 giant_enemy_rect = giant_enemy_surface.get_rect(midbottom=(900, 300))  
 
@@ -299,7 +305,7 @@ while True:
     else:
         if BSOD:
 
-            lucida_font = pygame.font.Font("Desktop/Panikfile/Fontx/LucidaGrande.ttc", 20)
+            lucida_font = pygame.font.Font(str(asset_path("Fontx", "LucidaGrande.ttc")), 20)
             game_font = test_font 
             buffer = pygame.Surface((pygame.display.Info().current_w, pygame.display.Info().current_h))
             buffer.fill((0, 0, 255))  
@@ -381,7 +387,7 @@ while True:
                 for entry in blink_logs:
                     f.write(entry + "\n")  
 
-            source_image = "Desktop/Panikfile/Graphix/grimgoodbye.jpg"
+            source_image = str(asset_path("Graphix", "grimgoodbye.jpg"))
             target_image = os.path.join(desktop, "grimgoodbye.jpg")
             shutil.copyfile(source_image, target_image)
 
@@ -449,7 +455,7 @@ while True:
                 flicker = True
                 flicker_start_time = pygame.time.get_ticks()  
                 flicker_duration = 3000  
-                flicker_font = pygame.font.Font("Desktop/Panikfile/Fontx/GothicPixels.ttf", 40) 
+                flicker_font = pygame.font.Font(str(asset_path("Fontx", "GothicPixels.ttf")), 40)
 
                 buffer.fill((139, 0, 0))  
                 buffer.blit(son, son_rectangle)
@@ -478,7 +484,7 @@ while True:
                 glitch_start_time = pygame.time.get_ticks()  
                 glitch_duration = 3000  
                 glitch_text = "Your time on Earth has ended."
-                glitch_font = pygame.font.Font("Desktop/Panikfile/Fontx/GothicPixels.ttf",50) 
+                glitch_font = pygame.font.Font(str(asset_path("Fontx", "GothicPixels.ttf")), 50)
                 color = (255, 0, 0)
 
                 while pygame.time.get_ticks() - glitch_start_time < glitch_duration:
